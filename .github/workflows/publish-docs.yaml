@@ -3,7 +3,7 @@ name: Publish Github Pagers
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   Explore-GitHub-Actions:
