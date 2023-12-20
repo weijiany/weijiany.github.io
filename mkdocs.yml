@@ -1,0 +1,5 @@
+site_name: 🐶🥚 碎碎念
+site_url: https://weijiany.github.io
+theme:
+  name: readthedocs
+  titles_only: true

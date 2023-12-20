@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "weijiany-github-io"
+version = "1.0.0"
+description = ""
+authors = ["weijiany <cnweijiany@gmail.com>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+mkdocs = "^1.5.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
