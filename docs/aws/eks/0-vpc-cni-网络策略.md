@@ -130,3 +130,5 @@ data:
               matchLabels:
                 kubernetes.io/metadata.name: demo
   ```
+
+这里有一个非常好用的网站，可以傻瓜式配置 NetworkPolicy: https://editor.networkpolicy.io
