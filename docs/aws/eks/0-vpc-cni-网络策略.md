@@ -14,6 +14,10 @@
 
 但是 AWS 它另辟蹊径：它会给每一个运行在 EC2 上的 Pod 放上一个 ENI(也就是网卡) 来实现在 EKS 中给 Pod assign IP，于是这里就有个很坑爹的问题，一个 EC2 所能 attach 的 ENI 是有限的，这就导致 CPU、Memory 有时候还没有达到 80%，但是却出现 EC2 的 ENI 已经用尽了……
 
+不过有一种解决办法，在 VPC-CNI 上称之为: [ENABLE_PREFIX_DELEGATION](https://github.com/aws/amazon-vpc-cni-k8s?tab=readme-ov-file#enable_prefix_delegation-v190)，开启这个功能之后，EC2 会给 ENI 分配一个 /28 的网络块，这样这个 ENI 就可以控制的是这个 /28 下的所有 ip 而不仅仅是几个独立的 ip。
+
+**Note: **这里会出现 ENI 本来可以支持 20 个 ip，但是开启了 ENABLE_PREFIX_DELEGATION 会减少一个 ENI 能管理的 ip 数量。
+
 ### 怎么使用 AWS VPC CNI 实现 NetworkPolicy 呢？
 
 在 kubernetes 中，可以使用 NetworkPolicy 来限制网络之间的访问。
