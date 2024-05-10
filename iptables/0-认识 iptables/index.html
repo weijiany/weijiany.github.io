@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://weijiany.github.io/iptables/0-%E8%AE%A4%E8%AF%86%20iptables/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>认识 Linux iptables - 🐶🥚 碎碎念</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u8ba4\u8bc6 Linux iptables";
+        var mkdocs_page_input_path = "iptables/0-\u8ba4\u8bc6 iptables.md";
+        var mkdocs_page_url = "/iptables/0-%E8%AE%A4%E8%AF%86%20iptables/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> 🐶🥚 碎碎念
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Hello World</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Aws</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Eks</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../aws/eks/0-vpc-cni-%E7%BD%91%E7%BB%9C%E7%AD%96%E7%95%A5/">AWS VPC CNI 网络策略</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Iam</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../aws/iam/0-%E8%AE%A4%E8%AF%86%20sso/">认识 AWS SSO</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Cni</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../cni/0-%E8%AE%A4%E8%AF%86%20cni/">认识 kubernetes CNI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Network</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../cni/network/0-netns%20%E4%BA%92%E8%BF%9E/">network namespace 互连</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Iptables</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">认识 Linux iptables</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">🐶🥚 碎碎念</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Iptables</li>
+      <li class="breadcrumb-item active">认识 Linux iptables</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="linux-iptables">认识 Linux iptables</h1>
+<p>IPTABLES 是与最新的 3.5 版本 Linux 内核集成的 IP 信息包过滤系统。如果 Linux 系统连接到因特网或 LAN、服务器或连接 LAN 和因特网的代理服务
+器，则该系统有利于在 Linux 系统上更好地控制 IP 信息包过滤和防火墙配置。</p>
+<p>同时 iptables 也是 kubernetes 中内置的网络连接方式(我记得是)。</p>
+<h2 id="iptables-4">iptables 4表五链</h2>
+<p>在 Linux 中，iptables 是一个用于配置 IPv4 数据包过滤规则的工具。iptables 使用表（tables）和链（chains）的概念来组织规则。IPv4 的 
+iptables 支持四个表，每个表包含若干个链。这四个表分别是：filter、nat、【mangle 和 raw】(不常用)。</p>
+<p><img alt="network-flow.png" src="../asserts/network-flow.png" /></p>
+<ol>
+<li>filter 表:</li>
+<li>Chains:<ul>
+<li>INPUT: 用于处理传入的数据包。</li>
+<li>FORWARD: 用于处理通过系统的数据包。</li>
+<li>OUTPUT: 用于处理本地生成的数据包。</li>
+</ul>
+</li>
+<li>nat 表:</li>
+<li>Chains:<ul>
+<li>PREROUTING: 在数据包进入路由之前处理，用于目标地址转换。</li>
+<li>POSTROUTING: 在数据包离开路由之后处理，用于源地址转换。</li>
+<li>OUTPUT: 用于本地生成的数据包的目标地址转换。</li>
+</ul>
+</li>
+<li>mangle 表:</li>
+<li>Chains:<ul>
+<li>PREROUTING: 在数据包进入路由之前处理。</li>
+<li>INPUT: 处理传入的数据包。</li>
+<li>FORWARD: 处理通过系统的数据包。</li>
+<li>OUTPUT: 处理本地生成的数据包。</li>
+<li>POSTROUTING: 在数据包离开路由之后处理。</li>
+</ul>
+</li>
+<li>raw 表:</li>
+<li>Chains:<ul>
+<li>PREROUTING: 在数据包进入路由之前处理，不会跟跟踪状态或连接。</li>
+<li>OUTPUT: 用于处理本地生成的数据包，不会跟踪状态或连接。</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-shell"># 可以使用 iptables 命令查看
+# -n: Numeric output.  IP addresses and port numbers will be printed in numeric format.  By default, the program 
+#     will try to display them as  host  names,  network names, or services (whenever applicable).
+# -L: List all chains.
+iptables -nL
+
+# 限制从 192.168.56.10 来的所有请求
+# -t: specific which table
+# -I: insert rule into the selected chain
+# -s: source ip
+# -j: target(ACCEPT, DROP, REJECT)
+# 默认会加到当前 chain 的第一个
+iptables -t filter -I INPUT -s 192.168.56.10 -j DROP
+# -D: delete one or more rule from the selected chain
+iptables -t filter -D INPUT 1
+
+# 限制从 192.168.56.10 访问 80 端口
+# -p: protocol, The specified protocol can be one of tcp, udp, udplite, icmp, icmpv6,esp, ah, sctp, mh  or  the
+#     special keyword &quot;all&quot;.
+# --dport: destination port.
+iptables -t filter -I INPUT -s 192.168.56.10 -j DROP -p tcp --dport 80
+
+# 多个端口
+iptables -t filter -I INPUT -s 192.168.56.10 -j DROP -p tcp -m mutiport --dport 80,443
+
+# 连续的端口范围: 1 - 1024
+iptables -t filter -I INPUT -s 192.168.56.10 -j DROP -p tcp--dport 1:1024
+</code></pre>
+<h2 id="linux">Linux 内核参数</h2>
+<p>Linux 内核参数配置文件在 <code>/etc/sysctl.conf</code>，每次修改之后，需要运行 <code>sysctl -p</code> 生效</p>
+<p>临时修改内核参数，所有的参数都是一个文件，在 <code>/proc/sys/</code> 文件夹中，例如 <code>net.ipv4.icmp_echo_ignore_all</code> 配置所对应的文件是：
+<code>/proc/sys/net/ipv4/icmp_echo_ignore_all</code></p>
+<p>查看所有内核参数: <code>sysctl -a</code></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../cni/network/0-netns%20%E4%BA%92%E8%BF%9E/" class="btn btn-neutral float-left" title="network namespace 互连"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../cni/network/0-netns%20%E4%BA%92%E8%BF%9E/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

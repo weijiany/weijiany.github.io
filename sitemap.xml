@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://weijiany.github.io/</loc>
+         <lastmod>2024-05-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://weijiany.github.io/aws/eks/0-vpc-cni-%E7%BD%91%E7%BB%9C%E7%AD%96%E7%95%A5/</loc>
+         <lastmod>2024-05-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://weijiany.github.io/aws/iam/0-%E8%AE%A4%E8%AF%86%20sso/</loc>
+         <lastmod>2024-05-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://weijiany.github.io/cni/0-%E8%AE%A4%E8%AF%86%20cni/</loc>
+         <lastmod>2024-05-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://weijiany.github.io/cni/network/0-netns%20%E4%BA%92%E8%BF%9E/</loc>
+         <lastmod>2024-05-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://weijiany.github.io/iptables/0-%E8%AE%A4%E8%AF%86%20iptables/</loc>
+         <lastmod>2024-05-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+</urlset>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://weijiany.github.io/cni/network/0-netns%20%E4%BA%92%E8%BF%9E/" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>network namespace 互连 - 🐶🥚 碎碎念</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "network namespace \u4e92\u8fde";
+        var mkdocs_page_input_path = "cni/network/0-netns \u4e92\u8fde.md";
+        var mkdocs_page_url = "/cni/network/0-netns%20%E4%BA%92%E8%BF%9E/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> 🐶🥚 碎碎念
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Hello World</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Aws</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Eks</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../aws/eks/0-vpc-cni-%E7%BD%91%E7%BB%9C%E7%AD%96%E7%95%A5/">AWS VPC CNI 网络策略</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Iam</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../aws/iam/0-%E8%AE%A4%E8%AF%86%20sso/">认识 AWS SSO</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Cni</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../0-%E8%AE%A4%E8%AF%86%20cni/">认识 kubernetes CNI</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Network</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">network namespace 互连</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Iptables</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../iptables/0-%E8%AE%A4%E8%AF%86%20iptables/">认识 Linux iptables</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">🐶🥚 碎碎念</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Cni</li>
+          <li class="breadcrumb-item">Network</li>
+      <li class="breadcrumb-item active">network namespace 互连</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="network-namespace">network namespace 互连</h1>
+<p>在 linux 中的容器化上，一定会使用到 linux network namespace 用来做容器之间的网络隔离。那么在 linux 中怎么实现一个让 network namespace
+互联呢？这就是这个小 blog 的主要话题。也是最近在学习 kubernetes CNI 引出的一个小话题。</p>
+<h2 id="network-namespace_1">两个 network namespace 互连</h2>
+<p>这个小实验使用 veth pair 直接让两个 network namespace 互联，类似于直接使用一根网线把两台电脑 💻 直接连接，这样这两个电脑就可以互相通信。
+这里使用 ICMP(ping) 来验证连通性。</p>
+<p><img alt="connect-by-veth.png" src="../asserts/connect-by-veth.png" /></p>
+<pre><code class="language-shell">## 创建两个网络命名空间
+ip netns add ns1
+ip netns add ns2
+
+## 创建一对虚拟以太网设备，并将每个设备连接到一个命名空间
+ip link add veth1 type veth peer name veth2
+ip link set veth1 netns ns1
+ip link set veth2 netns ns2
+
+## 在每个命名空间中配置网络接口
+ip netns exec ns1 ip addr add 192.168.1.1/24 dev veth1
+ip netns exec ns1 ip link set veth1 up
+
+ip netns exec ns2 ip addr add 192.168.1.2/24 dev veth2
+ip netns exec ns2 ip link set veth2 up
+
+## 在每个网络命名空间中配置默认路由
+ip netns exec ns1 ip route add default via 192.168.1.2
+ip netns exec ns2 ip route add default via 192.168.1.1
+
+## ---------------------------------------
+
+## teardown
+ip netns del ns1
+ip netns del ns2
+</code></pre>
+<h2 id="network-veth-network-bridge">两个 network 通过 veth 连接到同一个 network bridge 上</h2>
+<p>在 linux 中有一个叫做 network bridge 的网络组件，绑定在同一个 bridge 上的 veth 可以互相访问。</p>
+<p><img alt="connect-with-bridge.png" src="../asserts/connect-with-bridge.png" /></p>
+<pre><code class="language-shell">## 安装 brictl, iptables
+apt install iproute2 bridge-utils iptables -y
+
+## 创建两个网络命名空间
+ip netns add ns1
+ip netns add ns2
+
+## 创建一个网桥
+brctl addbr br0
+
+## 为网桥添加 IP 地址，并启用
+ip addr add 192.168.1.254/24 dev br0
+ip link set dev br0 up
+
+## 将虚拟设备 veth1 和 veth2 分别添加到两个网络命名空间中
+ip link add veth1 type veth peer name veth1-br
+ip link set veth1-br up
+
+ip link add veth2 type veth peer name veth2-br
+ip link set veth2-br up
+
+## 将虚拟设备 veth1-br 和 veth2-br 分别添加到网桥 br0 中
+brctl addif br0 veth1-br
+brctl addif br0 veth2-br
+
+## 在每个命名空间中配置网络接口
+ip link set veth1 netns ns1
+ip netns exec ns1 ip addr add 192.168.1.1/24 dev veth1
+ip netns exec ns1 ip link set veth1 up
+
+ip link set veth2 netns ns2
+ip netns exec ns2 ip addr add 192.168.1.2/24 dev veth2
+ip netns exec ns2 ip link set veth2 up
+
+## 由于 iptables 会禁止访问，需要开启(暂时不知道为啥)
+iptables -A FORWARD -i br0 -j ACCEPT
+
+## 设置默认路由，让网桥作为网关
+ip netns exec ns1 ip route add default via 192.168.1.254
+ip netns exec ns2 ip route add default via 192.168.1.254
+
+## -------------------------
+
+## teardown
+iptables -D FORWARD -i br0 -j ACCEPT
+ip netns del ns1
+ip netns del ns2
+ip link del br0
+</code></pre>
+<h3 id="note">Note</h3>
+<p>tcpdump: 用来抓对应 network interface 的请求，常用的 options</p>
+<ul>
+<li>-p: Don't put the interface into promiscuous mode.(暂时不知道什么是混杂模式 promiscuous mode)</li>
+<li>-n: Don't convert addresses (i.e., host addresses, port numbers, etc.) to names.</li>
+<li>-e: Print the link-level header on each dump line.  This can be used, for example, to print MAC layer addresses for 
+  protocols such as Ethernet and IEEE 802.11.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../0-%E8%AE%A4%E8%AF%86%20cni/" class="btn btn-neutral float-left" title="认识 kubernetes CNI"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../../iptables/0-%E8%AE%A4%E8%AF%86%20iptables/" class="btn btn-neutral float-right" title="认识 Linux iptables">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../0-%E8%AE%A4%E8%AF%86%20cni/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../../iptables/0-%E8%AE%A4%E8%AF%86%20iptables/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
