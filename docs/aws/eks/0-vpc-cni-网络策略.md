@@ -61,78 +61,82 @@ data:
 ### Example
 
 - 允许相同 namespace 互相访问
-  ```yaml
-  apiVersion: networking.k8s.io/v1
-  kind: NetworkPolicy
-  metadata:
-    name: np
-  spec:
-    podSelector: {}
-    policyTypes:
-      - Ingress
-      - Egress
-    ingress:
-      - from:
-          - podSelector: {}
-    egress:
-      - to:
-          - podSelector: {}
-  ```
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector: {}
+  egress:
+    - to:
+        - podSelector: {}
+```
 
 - 允许访问外网，但是使用 pod ip 还是不能访问的
-  ```yaml
-  apiVersion: networking.k8s.io/v1
-  kind: NetworkPolicy
-  metadata:
-    name: np
-  spec:
-    podSelector: {}
-    policyTypes:
-      - Egress
-    egress:
-      - to:
-          - ipBlock:
-              cidr: 0.0.0.0/0
-  ```
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+```
 
 - 允许访问 coredns 来解析 svc
-  ```yaml
-  apiVersion: networking.k8s.io/v1
-  kind: NetworkPolicy
-  metadata:
-    name: np
-  spec:
-    podSelector: {}
-    policyTypes:
-      - Egress
-    egress:
-      - to:
-          - namespaceSelector: {}
-            podSelector:
-              matchLabels:
-                k8s-app: kube-dns
-        ports:
-          - port: 53
-            protocol: UDP
-  ```
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - port: 53
+          protocol: UDP
+```
 
 - 允许一个 namespace 的所有 pod 访问当前 namespace
-  ```yaml
-  apiVersion: networking.k8s.io/v1
-  kind: NetworkPolicy
-  metadata:
-    name: np
-  spec:
-    podSelector: {}
-    policyTypes:
-      - Ingress
-    ingress:
-      - from:
-          - podSelector: {}
-      - from:
-          - namespaceSelector:
-              matchLabels:
-                kubernetes.io/metadata.name: demo
-  ```
 
-这里有一个非常好用的网站，可以傻瓜式配置 NetworkPolicy: https://editor.networkpolicy.io
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector: {}
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: demo
+```
+
+这里有一个非常好用的网站，可以傻瓜式配置 NetworkPolicy: https://editor.networkpolicy.io 😉
