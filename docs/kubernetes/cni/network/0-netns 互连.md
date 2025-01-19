@@ -12,7 +12,7 @@ date: 2024-01-15
 这个小实验使用 veth pair 直接让两个 network namespace 互联，类似于直接使用一根网线把两台电脑 💻 直接连接，这样这两个电脑就可以互相通信。
 这里使用 ICMP(ping) 来验证连通性。
 
-![connect-by-veth.png](./asserts/connect-by-veth.png)
+![connect-by-veth.png](asserts/connect-by-veth.png)
 
 ```shell
 ## 创建两个网络命名空间
@@ -46,7 +46,7 @@ ip netns del ns2
 
 在 linux 中有一个叫做 network bridge 的网络组件，绑定在同一个 bridge 上的 veth 可以互相访问。
 
-![connect-with-bridge.png](./asserts/connect-with-bridge.png)
+![connect-with-bridge.png](asserts/connect-with-bridge.png)
 
 ```shell
 ## 安装 brictl, iptables
