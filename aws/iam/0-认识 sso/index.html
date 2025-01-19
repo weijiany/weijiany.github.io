@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://weijiany.github.io/aws/iam/0-%E8%AE%A4%E8%AF%86%20sso/" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>认识 AWS SSO - 🐶🥚 碎碎念</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u8ba4\u8bc6 AWS SSO";
+        var mkdocs_page_input_path = "aws/iam/0-\u8ba4\u8bc6 sso.md";
+        var mkdocs_page_url = "/aws/iam/0-%E8%AE%A4%E8%AF%86%20sso/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> 🐶🥚 碎碎念
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Hello World</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Aws</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="#">Eks</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../eks/0-vpc-cni-%E7%BD%91%E7%BB%9C%E7%AD%96%E7%95%A5/">AWS VPC CNI 网络策略</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Iam</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">认识 AWS SSO</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Container</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../container/0-build-cross-image/">Build cross images</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Iptables</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../iptables/0-%E8%AE%A4%E8%AF%86%20iptables/">认识 Linux iptables</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Kubernetes</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Cni</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../kubernetes/cni/0-%E8%AE%A4%E8%AF%86%20cni/">认识 kubernetes CNI</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Network</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../kubernetes/cni/network/0-netns%20%E4%BA%92%E8%BF%9E/">network namespace 互连</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Hpa</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../kubernetes/hpa/0-hpa-%E8%AF%86%E5%88%AB-external-metric/">HPA 识别 external metric</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">🐶🥚 碎碎念</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Aws</li>
+          <li class="breadcrumb-item">Iam</li>
+      <li class="breadcrumb-item active">认识 AWS SSO</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="aws-sso">认识 AWS SSO</h1>
+<p>今天在工作中第一次想研究研究，为什么每次通过 OKTA、Mirosoft AD 登录 AWS 之后，会出现很多个 account 的选择窗口呢，而且为什么点了一个 account
+之后，会出现选择多个 role 呢？</p>
+<p>(自己没有 AWS 账号，截图是费劲了 😭)</p>
+<h2 id="aws-sso_1">AWS SSO</h2>
+<p>在 AWS 中，可以在对应的 account 中 enable aws sso 完了之后，就可以创建 permission set 了，这个 permission set 的作用，就是给其他人
+assume 用的，它的 trust relationship 是：</p>
+<pre><code class="language-json">{
+    &quot;Version&quot;: &quot;2012-10-17&quot;,
+    &quot;Statement&quot;: [
+        {
+            &quot;Effect&quot;: &quot;Allow&quot;,
+            &quot;Principal&quot;: {
+                &quot;Service&quot;: &quot;sso.amazonaws.com&quot;
+            },
+            &quot;Action&quot;: &quot;sts:AssumeRole&quot;
+        }
+    ]
+}
+</code></pre>
+<p>可以被任何人 assume 过来。当任何人通过第三方登录以后，会创建一个新的 role 这个 role 才是最终在 aws sso 界面上创建的 role，这样通过中间的
+assume 操作实现了限制登录的时间。</p>
+<h2 id="terraform">通过 Terraform 创建</h2>
+<pre><code class="language-terraform"># It's used to get the SSO instance arns and identity_store_ids.
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssoadmin_instances
+data &quot;aws_ssoadmin_instances&quot; &quot;goudan&quot; {}
+
+resource &quot;aws_ssoadmin_permission_set&quot; &quot;permission_set&quot; {
+  name             = &quot;goudan_role&quot;
+  instance_arn     = tolist(data.aws_ssoadmin_instances.goudan.arns)[0]
+  session_duration = &quot;PT2H&quot;
+}
+
+resource &quot;aws_ssoadmin_managed_policy_attachment&quot; &quot;admin_4_permission_set&quot; {
+  instance_arn       = aws_ssoadmin_permission_set.permission_set.instance_arn
+  managed_policy_arn = &quot;arn:aws:iam::aws:policy/AdministratorAccess&quot;
+  permission_set_arn = aws_ssoadmin_permission_set.permission_set.arn
+}
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../eks/0-vpc-cni-%E7%BD%91%E7%BB%9C%E7%AD%96%E7%95%A5/" class="btn btn-neutral float-left" title="AWS VPC CNI 网络策略"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../../container/0-build-cross-image/" class="btn btn-neutral float-right" title="Build cross images">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../eks/0-vpc-cni-%E7%BD%91%E7%BB%9C%E7%AD%96%E7%95%A5/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../../container/0-build-cross-image/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

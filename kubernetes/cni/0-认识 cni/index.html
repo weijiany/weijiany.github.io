@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://weijiany.github.io/kubernetes/cni/0-%E8%AE%A4%E8%AF%86%20cni/" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>认识 kubernetes CNI - 🐶🥚 碎碎念</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u8ba4\u8bc6 kubernetes CNI";
+        var mkdocs_page_input_path = "kubernetes/cni/0-\u8ba4\u8bc6 cni.md";
+        var mkdocs_page_url = "/kubernetes/cni/0-%E8%AE%A4%E8%AF%86%20cni/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> 🐶🥚 碎碎念
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Hello World</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Aws</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Eks</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../aws/eks/0-vpc-cni-%E7%BD%91%E7%BB%9C%E7%AD%96%E7%95%A5/">AWS VPC CNI 网络策略</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Iam</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../aws/iam/0-%E8%AE%A4%E8%AF%86%20sso/">认识 AWS SSO</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Container</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../container/0-build-cross-image/">Build cross images</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Iptables</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../iptables/0-%E8%AE%A4%E8%AF%86%20iptables/">认识 Linux iptables</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Kubernetes</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Cni</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">认识 kubernetes CNI</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Network</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../network/0-netns%20%E4%BA%92%E8%BF%9E/">network namespace 互连</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Hpa</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../hpa/0-hpa-%E8%AF%86%E5%88%AB-external-metric/">HPA 识别 external metric</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">🐶🥚 碎碎念</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Kubernetes</li>
+          <li class="breadcrumb-item">Cni</li>
+      <li class="breadcrumb-item active">认识 kubernetes CNI</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="kubernetes-cni">认识 kubernetes CNI</h1>
+<p>在使用 <code>kubeadm init</code> 初始化完集群之后，运行 <code>kubectl get node</code> node 的状态都是 <code>NotReady</code></p>
+<pre><code class="language-shell">NAME     STATUS     ROLES           AGE     VERSION
+master   NotReady   control-plane   6d11h   v1.29.0
+worker   NotReady   &lt;none&gt;          6d11h   v1.29.0
+</code></pre>
+<p>这是因为当前集群之内并没有一个 cni 插件，导致 kubernetes 并不知道如何给 pod 分配 ip，所以集群中的 node 状态就是 NotReady
+了。</p>
+<h2 id="cni">什么是 CNI 呢？</h2>
+<p>CNI 的全称是 Container Network
+Interface，它为容器提供了一种基于插件结构的标准化网络解决方案。以往，容器的网络层是和具体的底层网络环境高度相关的，不同的网络服务提供商有不同的实现。CNI
+从网络服务里抽象出了一套标准接口，从而屏蔽了上层网络和底层网络提供商的网络实现之间的差异。并且，通过插件结构，它让容器在网络层的具体实现变得可插拔了，所以非常灵活。</p>
+<p>CNI 隶属于 CNCF(<a href="https://www.cncf.io/">Cloud Native Computing Foundation</a>)，Github: <a href="https://github.com/containernetworking/cni">cni</a>
+在<a href="https://github.com/containernetworking/plugins">plugin</a> 代码库中，有很多 example 作为参考。</p>
+<p>接下来准备使用 CNI plugin 中的 bridge 做实现。</p>
+<h2 id="go-go">Go Go</h2>
+<p>按顺序运行下面命令(我这里使用的是 aws arm64 的 vm，以及 1.4.0 的 cni plugin)</p>
+<pre><code class="language-shell">ip netns add lab-ns # 创建一个 network namespace 以便于后面 cni 在运行的过程中使用这个 network namespace
+
+cd ~
+mkdir -p test-cni/plugins
+cd test-cni/plugins
+curl -OL https://github.com/containernetworking/plugins/releases/download/v1.4.0/cni-plugins-linux-arm64-v1.4.0.tgz
+tar -zxf cni-plugins-linux-arm64-v1.4.0.tgz
+cat &gt; lab-br0.conf &lt;&lt;&quot;EOF&quot; # 配置详情：https://github.com/containernetworking/cni/blob/main/SPEC.md#section-1-network-configuration-format
+{
+    &quot;cniVersion&quot;: &quot;1.0.0&quot;,
+    &quot;name&quot;: &quot;lab-br0&quot;,
+    &quot;type&quot;: &quot;bridge&quot;,
+    &quot;bridge&quot;: &quot;lab-br0&quot;,
+    &quot;isGateway&quot;: true,
+    &quot;ipMasq&quot;: true,
+    &quot;ipam&quot;: {
+        &quot;type&quot;: &quot;host-local&quot;,
+        &quot;subnet&quot;: &quot;10.1.0.0/16&quot;,
+        &quot;gateway&quot;: &quot;10.1.0.1&quot;,
+        &quot;routes&quot;: [
+            {
+                &quot;dst&quot;: &quot;0.0.0.0/0&quot;
+            }
+        ]
+    }
+}
+EOF
+</code></pre>
+<ul>
+<li>cniVersion: 来自于 github 现在支持的 cni 版本</li>
+<li>name: 在一台机器上，这个 name 需要唯一</li>
+<li>type: 使用在当前磁盘上的那一个 cni plugin</li>
+<li>bridge: 网桥的名字</li>
+<li>isGateway: 只有设置为 true 才会给创建出来的网桥设置 ip</li>
+<li>ipMasq: 在插件支持的情况的，设置ip伪装。当宿主机充当的网关无法路由到分配给容器的IP子网的网关的时候，这个参数是必须有的。(别的地方抄过来的)</li>
+<li>ipam: ip address management 不同 cni plugin 应该有不同的 key value</li>
+<li>type: 使用在当前磁盘上的那一个 cni plugin</li>
+<li>subnet: 给 container 的 subnet address</li>
+<li>gateway: gateway 地址</li>
+<li>routes: 在创建出来的 network namespace 中设置的 route table</li>
+</ul>
+<pre><code class="language-shell"># 所有的参数解释：https://github.com/containernetworking/cni/blob/main/SPEC.md#parameters
+CNI_COMMAND=ADD CNI_CONTAINERID=lab-ns CNI_NETNS=/var/run/netns/lab-ns CNI_IFNAME=eth0 CNI_PATH=`pwd` ./bridge &lt;./lab-br0.conf
+# 这个命令会输出：
+# {
+#     &quot;cniVersion&quot;: &quot;1.0.0&quot;,
+#     &quot;interfaces&quot;: [
+#         {
+#             &quot;name&quot;: &quot;lab-br0&quot;,
+#             &quot;mac&quot;: &quot;c6:5e:52:2b:67:8d&quot;
+#         },
+#         {
+#             &quot;name&quot;: &quot;veth7e65c23d&quot;,
+#             &quot;mac&quot;: &quot;d6:03:a5:19:9e:2b&quot;
+#         },
+#         {
+#             &quot;name&quot;: &quot;eth0&quot;,
+#             &quot;mac&quot;: &quot;06:04:03:ac:ac:9c&quot;,
+#             &quot;sandbox&quot;: &quot;/var/run/netns/lab-ns&quot;
+#         }
+#     ],
+#     &quot;ips&quot;: [
+#         {
+#             &quot;interface&quot;: 2,
+#             &quot;address&quot;: &quot;10.1.0.2/16&quot;,
+#             &quot;gateway&quot;: &quot;10.1.0.1&quot;
+#         }
+#     ],
+#     &quot;routes&quot;: [
+#         {
+#             &quot;dst&quot;: &quot;0.0.0.0/0&quot;
+#         }
+#     ],
+#     &quot;dns&quot;: {}
+</code></pre>
+<h3 id="verify">verify</h3>
+<p>验证 vm interface</p>
+<pre><code class="language-shell">ip a s
+
+···
+# 这里 lab-br0 就是刚刚 bridge cni 创建的网桥
+# veth7e65c23d 是 veth 其中一边
+8: lab-br0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether c6:5e:52:2b:67:8d brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::c45e:52ff:fe2b:678d/64 scope link
+       valid_lft forever preferred_lft forever
+9: veth7e65c23d@if2: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master lab-br0 state UP group default
+    link/ether d6:03:a5:19:9e:2b brd ff:ff:ff:ff:ff:ff link-netns lab-ns
+    inet6 fe80::d403:a5ff:fe19:9e2b/64 scope link
+       valid_lft forever preferred_lft forever
+
+# 另一边在 network namespace 里
+ip netns exec lab-ns ip a s
+
+# 在 lab-ns 这个 network namespace 中只有一块网卡，网卡名字是从：CNI_IFNAME 来的 
+1: lo: &lt;LOOPBACK&gt; mtu 65536 qdisc noop state DOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: eth0@if9: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default
+    link/ether 06:04:03:ac:ac:9c brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 10.1.0.2/16 brd 10.1.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::404:3ff:feac:ac9c/64 scope link
+       valid_lft forever preferred_lft forever
+
+# 在 network namespace 中验证可以访问 network gateway
+ip netns exec lab-ns ping 10.1.0.1 -c 3
+
+# 在 network namespace 中验证可以访问自己
+ip netns exec lab-ns ping 10.1.0.2 -c 3
+</code></pre>
+<h2 id="teardown">teardown</h2>
+<pre><code class="language-shell">export NS_NAME=&quot;lab-ns&quot;
+export BR_NAME=&quot;lab-br0&quot;
+
+# 删除测试创建的 network namespace
+ip -all netns delete lab-ns
+
+# 删除 host-local 创建的 network bridge
+# 在删除 bridge 前，必须先把 bridge 停掉
+ip link set lab-br0 down
+brctl delbr lab-br0
+
+# 删除 cni 用来存储 metadata 的数据
+rm -rf /var/lib/cni/networks/lab-br0/
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../../iptables/0-%E8%AE%A4%E8%AF%86%20iptables/" class="btn btn-neutral float-left" title="认识 Linux iptables"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../network/0-netns%20%E4%BA%92%E8%BF%9E/" class="btn btn-neutral float-right" title="network namespace 互连">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../../iptables/0-%E8%AE%A4%E8%AF%86%20iptables/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../network/0-netns%20%E4%BA%92%E8%BF%9E/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://weijiany.github.io/kubernetes/hpa/0-hpa-%E8%AF%86%E5%88%AB-external-metric/" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>HPA 识别 external metric - 🐶🥚 碎碎念</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "HPA \u8bc6\u522b external metric";
+        var mkdocs_page_input_path = "kubernetes/hpa/0-hpa-\u8bc6\u522b-external-metric.md";
+        var mkdocs_page_url = "/kubernetes/hpa/0-hpa-%E8%AF%86%E5%88%AB-external-metric/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> 🐶🥚 碎碎念
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Hello World</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Aws</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Eks</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../aws/eks/0-vpc-cni-%E7%BD%91%E7%BB%9C%E7%AD%96%E7%95%A5/">AWS VPC CNI 网络策略</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Iam</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../aws/iam/0-%E8%AE%A4%E8%AF%86%20sso/">认识 AWS SSO</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Container</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../container/0-build-cross-image/">Build cross images</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Iptables</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../iptables/0-%E8%AE%A4%E8%AF%86%20iptables/">认识 Linux iptables</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Kubernetes</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="#">Cni</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../cni/0-%E8%AE%A4%E8%AF%86%20cni/">认识 kubernetes CNI</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Network</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../cni/network/0-netns%20%E4%BA%92%E8%BF%9E/">network namespace 互连</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Hpa</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">HPA 识别 external metric</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">🐶🥚 碎碎念</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Kubernetes</li>
+          <li class="breadcrumb-item">Hpa</li>
+      <li class="breadcrumb-item active">HPA 识别 external metric</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="hpa-external-metric">HPA 识别 external metric</h1>
+<p>使用 kubernetes 的运维，一定都会遇到需要配置 hpa(Horizontal Pod Autoscaling) 的时候，毕竟现在使用 kubernetes 其中一方面很大程度都是为了在业务低谷期通过 auto-scaling 省钱。</p>
+<p>但是 kubernetes 内置的 metric 只能支持使用 CPU + memory，只有这两个 metric 肯定不足以满足现在这个时代这么复杂的需求，于是 external metric 出现了。</p>
+<h2 id="hpa-external-metric_1">HPA 如何使用 external metric</h2>
+<p>这里以 <a href="https://github.com/kedacore/keda/">KEDA</a> 举例子(一个可以支持 scale to zero 的工具)。</p>
+<p>按照 <a href="https://keda.sh/docs/2.16/deploy/">KEDA 官方文档使用 helm 安装</a>完毕以后，可以在命令行敲一个：</p>
+<pre><code class="language-shell">$ kubectl get apiservices | grep keda
+
+v1beta1.external.metrics.k8s.io        keda/keda-operator-metrics-apiserver    True        145d
+</code></pre>
+<p>这里的 <a href="https://kubernetes.io/docs/reference/external-api/external-metrics.v1beta1/"><code>v1beta1.external.metrics.k8s.io</code></a> 就是 kubernetes hpa 会通过这个 api 来获取 external metric。按照官网定义的，hpa 默认每 <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#how-does-a-horizontalpodautoscaler-work">15s</a> 会从 kube-controller-manager 获取 metric。</p>
+<p>这个 apiservice 对象 yaml 为：</p>
+<pre><code class="language-yaml">apiVersion: apiregistration.k8s.io/v1
+kind: APIService
+metadata:
+  annotations:
+    meta.helm.sh/release-name: keda
+    meta.helm.sh/release-namespace: keda
+  labels:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/instance: keda
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: v1beta1.external.metrics.k8s.io
+    app.kubernetes.io/part-of: keda-operator
+    app.kubernetes.io/version: 2.16.1
+    helm.sh/chart: keda-2.16.1
+  name: v1beta1.external.metrics.k8s.io
+spec:
+  caBundle: ....
+  group: external.metrics.k8s.io
+  groupPriorityMinimum: 100
+  service:
+    name: keda-operator-metrics-apiserver
+    namespace: keda
+    port: 443
+  version: v1beta1
+  versionPriority: 100
+</code></pre>
+<p>可以看到这里的 apiservice 最后会路由到一个 KEDA 的 svc 上，这个 svc 最后才是实际上用来提供 external metric 的地方，这一套流程 Prometheus、Datadog 也都是一样，<strong>且这些使用 external metric 的工具，最后必须创建一个 name 为：<code>v1beta1.external.metrics.k8s.io</code> 的 api service，这就导致如果想要切换 external metric 只能先卸载再重装 🫠</strong></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../cni/network/0-netns%20%E4%BA%92%E8%BF%9E/" class="btn btn-neutral float-left" title="network namespace 互连"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../cni/network/0-netns%20%E4%BA%92%E8%BF%9E/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
