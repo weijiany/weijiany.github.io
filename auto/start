@@ -1,0 +1,13 @@
+#! /bin/bash
+
+set -euo pipefail
+
+cd $(dirname $0)/..
+
+docker build -t weijiany-doc .
+
+docker run -p 8000:8000 \
+  --rm \
+  -v `pwd`:/app \
+  weijiany-doc \
+  "poetry run mkdocs serve --dev-addr 0.0.0.0:8000"
