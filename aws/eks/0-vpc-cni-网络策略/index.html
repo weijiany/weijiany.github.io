@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://weijiany.github.io/aws/eks/0-vpc-cni-%E7%BD%91%E7%BB%9C%E7%AD%96%E7%95%A5/" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>AWS VPC CNI 网络策略 - 🐶🥚 碎碎念</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "AWS VPC CNI \u7f51\u7edc\u7b56\u7565";
+        var mkdocs_page_input_path = "aws/eks/0-vpc-cni-\u7f51\u7edc\u7b56\u7565.md";
+        var mkdocs_page_url = "/aws/eks/0-vpc-cni-%E7%BD%91%E7%BB%9C%E7%AD%96%E7%95%A5/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> 🐶🥚 碎碎念
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Hello World</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Aws</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Eks</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">AWS VPC CNI 网络策略</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Iam</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../iam/0-%E8%AE%A4%E8%AF%86%20sso/">认识 AWS SSO</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Container</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../container/0-build-cross-image/">Build cross images</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Iptables</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../iptables/0-%E8%AE%A4%E8%AF%86%20iptables/">认识 Linux iptables</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Kubernetes</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Auth</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../kubernetes/auth/0-kube-rbac-proxy/">kube-rbac-proxy</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Cni</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../kubernetes/cni/0-%E8%AE%A4%E8%AF%86%20cni/">认识 kubernetes CNI</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Network</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../kubernetes/cni/network/0-netns%20%E4%BA%92%E8%BF%9E/">network namespace 互连</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Hpa</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../kubernetes/hpa/0-hpa-%E8%AF%86%E5%88%AB-external-metric/">HPA 识别 external metric</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Loadbalancer</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../kubernetes/loadbalancer/0-local-LoadBalancer-metallb/">Local LoadBalancer metallb</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">🐶🥚 碎碎念</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Aws</li>
+          <li class="breadcrumb-item">Eks</li>
+      <li class="breadcrumb-item active">AWS VPC CNI 网络策略</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="aws-vpc-cni">AWS VPC CNI 网络策略</h1>
+<p>在使用 EKS 的时候，会有一个安全的点可以考虑 -&gt; 我们在 EKs 中部署的很多的第三的东西，实际上我们作为 DevOps，并不知道它的底层是怎么实现的，这个时候就很麻烦，很怕别人的东西引入了一个什么样的 bug 导致可以被黑客进入到 Pod 里 💥 所有的 Pod 都可以别人通过 API 访问到了！这可不是一个好的事情，容易丢工作的说~ 汪~</p>
+<p>所以呢，今天就来分享一个还挺有意思的东西(aws vpc cni network policy)</p>
+<h2 id="aws-vpc-cni_1">AWS VPC CNI</h2>
+<h3 id="aws-vpc-cni_2">什么是 <a href="https://github.com/aws/amazon-vpc-cni-k8s">AWS VPC CNI</a> 呢？</h3>
+<p>简单来说：它就是 Kubernetes 里众多 CNI 的一种实现。</p>
+<p>只不过它是基于 AWS VPC 来实现的，不像别的 CNI 插件一样。像 flannel、calico 这种都是会使用 Kubernetes 中的 IP address 来给 Pod 添加 IP，这里更多使用的是 Linux 提供的 network namespace、veth-pair 来实现这种功能，靠 Linux 的 virtual network 来做。</p>
+<p>但是 AWS 它另辟蹊径：它会给每一个运行在 EC2 上的 Pod 放上一个 ENI(也就是网卡) 来实现在 EKS 中给 Pod assign IP，于是这里就有个很坑爹的问题，一个 EC2 所能 attach 的 ENI 是有限的，这就导致 CPU、Memory 有时候还没有达到 80%，但是却出现 EC2 的 ENI 已经用尽了……</p>
+<p>不过有一种解决办法，在 VPC-CNI 上称之为: <a href="https://github.com/aws/amazon-vpc-cni-k8s?tab=readme-ov-file#enable_prefix_delegation-v190">ENABLE_PREFIX_DELEGATION</a>，开启这个功能之后，EC2 会给 ENI 分配一个 /28 的网络块，这样这个 ENI 就可以控制的是这个 /28 下的所有 ip 而不仅仅是几个独立的 ip。</p>
+<p><strong>Note: </strong>这里会出现 ENI 本来可以支持 20 个 ip，但是开启了 ENABLE_PREFIX_DELEGATION 会减少一个 ENI 能管理的 ip 数量。</p>
+<h3 id="aws-vpc-cni-networkpolicy">怎么使用 AWS VPC CNI 实现 NetworkPolicy 呢？</h3>
+<p>在 kubernetes 中，可以使用 NetworkPolicy 来限制网络之间的访问。</p>
+<p>在添加了 VPC-CNI addon 之后，如果没有任何的配置，默认的 <a href="https://github.com/aws/amazon-vpc-cni-k8s?tab=readme-ov-file#network_policy_enforcing_mode-v1171">NETWORK_POLICY_ENFORCING_MODE</a> 是 standard，这意味着默认所有的 Pod 在任何一个 namespace 都可以互相访问，这不是我们想要的，这就导致可能出现如果第三方引入了 bug，就会导致我们的数据被拖走。所以如果想要限制访问，需要把 <code>NETWORK_POLICY_ENFORCING_MODE</code> 值设置为: strict，这意味着，任何一个 Pod 在没有配置任何的 NetworkPolicy 都不能互相访问。</p>
+<p><strong>注意: 甚至同一个 namespace 的 pod 都不能互相访问 😉 (是不是非常严格)</strong></p>
+<p>除了需要修改 <code>NETWORK_POLICY_ENFORCING_MODE</code> 值为: strict，还需要开启一个 VPC-CNI 内部的 controller 才可以。可以通过在 VPC-CNI addon 配置界面 -&gt; Advanced configuration 中添加 <code>{"enableNetworkPolicy":"true"}</code> 才可以，这样会修改 kube-system namespace 下的 amazon-vpc-cni configmap</p>
+<pre><code class="language-yaml">apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/instance: aws-vpc-cni
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: aws-node
+    app.kubernetes.io/version: v1.18.1
+    helm.sh/chart: aws-vpc-cni-1.18.1
+    k8s-app: aws-node
+  name: amazon-vpc-cni
+  namespace: kube-system
+data:
+  branch-eni-cooldown: &quot;60&quot;
+  enable-network-policy-controller: &quot;true&quot; # 这个值变为 true
+  enable-windows-ipam: &quot;false&quot;
+  enable-windows-prefix-delegation: &quot;false&quot;
+  minimum-ip-target: &quot;3&quot;
+  warm-ip-target: &quot;1&quot;
+  warm-prefix-target: &quot;0&quot;
+</code></pre>
+<p>之后就可以创建 NetworkPolicy 来限制不同 namespace 之间的访问了。</p>
+<p><strong>注意：</strong> 
+1. 通过 fargate 启动的 pod 不会收到 NetworkPolicy 的影响 https://docs.aws.amazon.com/eks/latest/userguide/cni-network-policy.html
+2. 必须两边都配置才可以访问通，在一个 namespace 允许 egress(出)，在另一个 namespace 允许 ingress(进)
+3. NetworkPolicy 都只是针对新创建的 Pod，所以每次修改了 NetworkPolicy 最好都是直接重启一起受到影响的 Pod</p>
+<h3 id="example">Example</h3>
+<ul>
+<li>允许相同 namespace 互相访问</li>
+</ul>
+<pre><code class="language-yaml">apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector: {}
+  egress:
+    - to:
+        - podSelector: {}
+</code></pre>
+<ul>
+<li>允许访问外网，但是使用 pod ip 还是不能访问的</li>
+</ul>
+<pre><code class="language-yaml">apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+</code></pre>
+<ul>
+<li>允许访问 coredns 来解析 svc</li>
+</ul>
+<pre><code class="language-yaml">apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - port: 53
+          protocol: UDP
+</code></pre>
+<ul>
+<li>允许一个 namespace 的所有 pod 访问当前 namespace</li>
+</ul>
+<pre><code class="language-yaml">apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector: {}
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: demo
+</code></pre>
+<p>这里有一个非常好用的网站，可以傻瓜式配置 NetworkPolicy: https://editor.networkpolicy.io 😉</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../.." class="btn btn-neutral float-left" title="Hello World"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../iam/0-%E8%AE%A4%E8%AF%86%20sso/" class="btn btn-neutral float-right" title="认识 AWS SSO">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../.." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../iam/0-%E8%AE%A4%E8%AF%86%20sso/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

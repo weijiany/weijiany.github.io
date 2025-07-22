@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://weijiany.github.io/kubernetes/loadbalancer/0-local-LoadBalancer-metallb/" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Local LoadBalancer metallb - 🐶🥚 碎碎念</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Local LoadBalancer metallb";
+        var mkdocs_page_input_path = "kubernetes/loadbalancer/0-local-LoadBalancer-metallb.md";
+        var mkdocs_page_url = "/kubernetes/loadbalancer/0-local-LoadBalancer-metallb/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> 🐶🥚 碎碎念
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Hello World</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Aws</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Eks</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../aws/eks/0-vpc-cni-%E7%BD%91%E7%BB%9C%E7%AD%96%E7%95%A5/">AWS VPC CNI 网络策略</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Iam</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../aws/iam/0-%E8%AE%A4%E8%AF%86%20sso/">认识 AWS SSO</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Container</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../container/0-build-cross-image/">Build cross images</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Iptables</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../iptables/0-%E8%AE%A4%E8%AF%86%20iptables/">认识 Linux iptables</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Kubernetes</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="#">Auth</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../auth/0-kube-rbac-proxy/">kube-rbac-proxy</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Cni</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../cni/0-%E8%AE%A4%E8%AF%86%20cni/">认识 kubernetes CNI</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Network</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../cni/network/0-netns%20%E4%BA%92%E8%BF%9E/">network namespace 互连</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Hpa</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../hpa/0-hpa-%E8%AF%86%E5%88%AB-external-metric/">HPA 识别 external metric</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Loadbalancer</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">Local LoadBalancer metallb</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">🐶🥚 碎碎念</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Kubernetes</li>
+          <li class="breadcrumb-item">Loadbalancer</li>
+      <li class="breadcrumb-item active">Local LoadBalancer metallb</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="local-loadbalancer-metallb">Local LoadBalancer metallb</h1>
+<p>最近在调研一些 Helm Chart 的时候，总会出现他们默认提供的 values 里对于 SVC 的 Type 都是 LoadBalancer，但是我的本地 Kubernetes 根本不支持安装 LoadBalancer 类型的 SVC，每次都得手动修改 SVC 部分配置使用 NodePort 以便于我可以在集群外部访问到服务。</p>
+<h2 id="how">How</h2>
+<p>最近正好在使用一个新的 Local LoadBalancer provider: <a href="https://github.com/metallb/metallb">metallb</a>.</p>
+<p>这个库挺好用的，直接就能使用本地能够访问到的 ip 作为 LoadBalancer 的 External IP，不过文档写的是真不咋地，也没有一个 Getting Start，那我就勉勉强强给写一个吧 🫠</p>
+<h3 id="metallb-getting-start">MetalLB Getting Start</h3>
+<ul>
+<li>Install Orbstack: <code>brew install orbstack</code></li>
+<li>Start Kubernetes via Orbstack: <code>orb start k8s</code></li>
+<li>Install MetalLB</li>
+</ul>
+<pre><code class="language-bash">helm repo add metallb https://metallb.github.io/metallb
+# frr: 开启 BGP 这对于我本地测试来说，没有任何作用
+helm upgrade --install metallb metallb/metallb --version 0.15.2 --set &quot;speaker.frr.enabled=false&quot; -n metallb --create-namespace
+</code></pre>
+<ul>
+<li>
+<p>Detect Node IP: <code>kubectl get node -o wide | awk 'NR!=1{print $6}'</code> 为了知道本机可以连接到 Orbstack 启动的 Kubernetes IP 段得先获取一下 node ip，假如 node ip 是: <code>198.19.249.2</code>，那么就可以给 Metallb 配置的 ip 段为: <code>198.19.249.100-198.19.249.200</code>。<strong>切记：</strong>不要使用 en0 对应的 ip 段，可能会对局域网产生影响。</p>
+</li>
+<li>
+<p>Configure Metallb</p>
+</li>
+</ul>
+<pre><code class="language-bash">kubectl apply -n metallb -f - &lt;&lt;EOF
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: default-pool
+spec:
+  addresses:
+    - 198.19.249.100-198.19.249.200
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2adv
+spec:
+  ipAddressPools:
+    - default-pool
+EOF
+</code></pre>
+<ul>
+<li>Test</li>
+</ul>
+<pre><code class="language-bash">kubectl apply -f - &lt;&lt;EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:mainline-alpine3.22
+        ports:
+        - name: http
+          containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+  type: LoadBalancer
+EOF
+</code></pre>
+<p>等待一会，查看 Service 是否获取到了 External IP：<code>kubectl get svc nginx</code></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../hpa/0-hpa-%E8%AF%86%E5%88%AB-external-metric/" class="btn btn-neutral float-left" title="HPA 识别 external metric"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../hpa/0-hpa-%E8%AF%86%E5%88%AB-external-metric/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

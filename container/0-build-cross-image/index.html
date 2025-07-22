@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://weijiany.github.io/container/0-build-cross-image/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Build cross images - 🐶🥚 碎碎念</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Build cross images";
+        var mkdocs_page_input_path = "container/0-build-cross-image.md";
+        var mkdocs_page_url = "/container/0-build-cross-image/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> 🐶🥚 碎碎念
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Hello World</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Aws</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Eks</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../aws/eks/0-vpc-cni-%E7%BD%91%E7%BB%9C%E7%AD%96%E7%95%A5/">AWS VPC CNI 网络策略</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Iam</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../aws/iam/0-%E8%AE%A4%E8%AF%86%20sso/">认识 AWS SSO</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Container</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Build cross images</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Iptables</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../iptables/0-%E8%AE%A4%E8%AF%86%20iptables/">认识 Linux iptables</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Kubernetes</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Auth</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../kubernetes/auth/0-kube-rbac-proxy/">kube-rbac-proxy</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Cni</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../kubernetes/cni/0-%E8%AE%A4%E8%AF%86%20cni/">认识 kubernetes CNI</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Network</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../kubernetes/cni/network/0-netns%20%E4%BA%92%E8%BF%9E/">network namespace 互连</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Hpa</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../kubernetes/hpa/0-hpa-%E8%AF%86%E5%88%AB-external-metric/">HPA 识别 external metric</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Loadbalancer</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../kubernetes/loadbalancer/0-local-LoadBalancer-metallb/">Local LoadBalancer metallb</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">🐶🥚 碎碎念</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Container</li>
+      <li class="breadcrumb-item active">Build cross images</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="build-cross-images">Build cross images</h1>
+<p>日常使用 mac 作为开发电脑，这就导致有些时候在 build image，需要同时 build 两个 platform arm, amd 的 images，arm 有时候会用来验证 image 是否可以正常工作，amd 的用来在线上运行。那么使用怎么构建多个 platform 的 inage 就成了一个问题。</p>
+<h2 id="platform-node">使用多个 platform node</h2>
+<p>在使用 docker、buildah、buildx 这种工具的时候，能构建出什么 platform image 都是基于 node platform 来决定的。所以比较简单的方法就是使用多个 platform node 来直接 build 多个 images。最后创建 manifest 来做到 cross platform。</p>
+<p>但是也有一个小缺点：会启动多个 node 导致 cost 增加</p>
+<h2 id="qemu-architecture">使用 qemu 通过模拟 architecture</h2>
+<p><a href="https://github.com/multiarch/qemu-user-static">qemu</a> 可以模拟 architecture 来完成构建多个 platform image 它只有一个不好的地方：速度慢，因为是通过软件模拟的 architecture 基础功能，这就导致会比直接使用 node 速度慢很多，但是在我的体验来说，还能接受。</p>
+<p>现在基本上都是使用 kubernetes pod 作为 ci agent，那么就需要在每一个 agent node 上通过 DaemonSet 启动 qemu 这个工具。这里有个 DaemonSet 的例子：</p>
+<pre><code class="language-yaml">---
+# Source: qemu-user-static/templates/daemonset.yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: qemu-user-static
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: qemu-user-static
+      app.kubernetes.io/instance: qemu-user-static
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: qemu-user-static
+        app.kubernetes.io/instance: qemu-user-static
+    spec:
+      initContainers:
+        - name: qemu
+          image: &quot;multiarch/qemu-user-static:7.2.0-1&quot; # tag refer to https://github.com/multiarch/qemu-user-static/tags
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+            seLinuxOptions:
+              level: s0
+          args:
+            - --reset
+            - -p
+            - &quot;yes&quot;
+      containers:
+        - image: &quot;registry.k8s.io/pause:3.10&quot;
+          name: pause
+</code></pre>
+<p>qemu 装好后就可以使用 buildah、buildx 这种命令直接 build cross imaeg。</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../aws/iam/0-%E8%AE%A4%E8%AF%86%20sso/" class="btn btn-neutral float-left" title="认识 AWS SSO"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../iptables/0-%E8%AE%A4%E8%AF%86%20iptables/" class="btn btn-neutral float-right" title="认识 Linux iptables">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../aws/iam/0-%E8%AE%A4%E8%AF%86%20sso/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../iptables/0-%E8%AE%A4%E8%AF%86%20iptables/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
